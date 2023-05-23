@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            width: double.infinity,
+            // width: double.infinity,
             child: const Card(
               child: Text(
                 "CHART",
@@ -28,7 +28,7 @@ class HomeView extends StatelessWidget {
             ),
           ),
           // user tansaction
-          const UserTransaction(),
+          const UserTransaction()
         ],
       ),
     );

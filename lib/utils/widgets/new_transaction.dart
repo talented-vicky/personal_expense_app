@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../widgets/user_transaction.dart';
 
 class NewTransaction extends StatelessWidget {
-  NewTransaction({super.key});
   final titleCtrl = TextEditingController();
   final amountCtrl = TextEditingController();
+  final Function transFunction;
+  NewTransaction({super.key, required this.transFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +49,7 @@ class NewTransaction extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              print(titleCtrl.text);
-              // UserTransaction().ad
+              transFunction(titleCtrl.text, double.parse(amountCtrl.text));
             },
             child: Container(
               height: 20,
@@ -65,7 +65,6 @@ class NewTransaction extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const UserTransaction()
         ],
       ),
     );
