@@ -11,52 +11,71 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      child: ListView.builder(
-          itemCount: transaction.length,
-          itemBuilder: (BuildContext context, int ind) {
-            return Card(
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      '\$${transaction[ind].amount}',
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue),
-                    ),
+      child: transaction.isEmpty
+          ? Column(
+              children: const [
+                Text(
+                  "Still spending? Anyways, click the plus icon to add your expense",
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 350,
+                  child: Image(
+                    image: AssetImage("assets/images/meal.jpg"),
+                    fit: BoxFit.cover,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                )
+              ],
+            )
+          : ListView.builder(
+              itemCount: transaction.length,
+              itemBuilder: (BuildContext context, int ind) {
+                return Card(
+                  child: Row(
                     children: [
-                      Text(
-                        transaction[ind].title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                        ),
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          '\$${transaction[ind].amount.toStringAsFixed(3)}',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColorDark),
                         ),
                       ),
-                      Text(
-                        DateFormat.yMMMd().format(transaction[ind].date),
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 11,
-                        ),
-                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(transaction[ind].title,
+                              // style: const TextStyle(
+                              //   fontWeight: FontWeight.bold,
+                              //   fontSize: 12,
+                              // ),
+                              style: Theme.of(context).textTheme.titleLarge
+                              // the above inherits textTheme set in material app (main.dart)
+                              ),
+                          Text(
+                            DateFormat.yMMMd().format(transaction[ind].date),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            );
-          }),
+                  ),
+                );
+              }),
     );
   }
 }

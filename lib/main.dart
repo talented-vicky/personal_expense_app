@@ -12,11 +12,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'ExpenseApp',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
+        fontFamily: "OpenSans",
+        // this will apply to all title text fields, see transaction_list widget
+        textTheme: ThemeData.light().textTheme.copyWith(
+              titleLarge: const TextStyle(
+                fontFamily: "Quicksand",
+                fontSize: 18,
+              ),
+            ),
+        // look up replacement for deprecated feature
+        appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  titleLarge: const TextStyle(
+                    fontFamily: "Quicksand",
+                    fontSize: 18,
+                  ),
+                )),
       ),
       home: const HomeView(),
     );
   }
 }
+
+
+// SHAKA ilembe
