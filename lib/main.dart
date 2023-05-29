@@ -19,9 +19,13 @@ class MyApp extends StatelessWidget {
         fontFamily: "OpenSans",
         // this will apply to all title text fields, see transaction_list widget
         textTheme: ThemeData.light().textTheme.copyWith(
-              titleLarge: const TextStyle(
+              titleMedium: const TextStyle(
                 fontFamily: "Quicksand",
                 fontSize: 18,
+              ),
+              titleSmall: const TextStyle(
+                fontFamily: "Quicksand",
+                fontSize: 16,
               ),
             ),
         // look up replacement for deprecated feature
@@ -40,3 +44,5 @@ class MyApp extends StatelessWidget {
 
 
 // SHAKA ilembe
+
+// I surrender all to you | i give myself away | Daily as I live | You are the reason I live | Lord I give you my heart => EBEZENA

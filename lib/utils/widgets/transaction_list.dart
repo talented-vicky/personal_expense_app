@@ -23,7 +23,8 @@ class TransactionList extends StatelessWidget {
                 SizedBox(
                   height: 350,
                   child: Image(
-                    image: AssetImage("assets/images/meal.jpg"),
+                    image:
+                        AssetImage("assets/images/healthcare-medical-cost.jpg"),
                     fit: BoxFit.cover,
                   ),
                 )
@@ -34,43 +35,67 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (BuildContext context, int ind) {
                 return Card(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Theme.of(context).primaryColorDark,
-                          ),
-                        ),
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          '\$${transaction[ind].amount.toStringAsFixed(3)}',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColorDark),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      // amount and title/date box
+                      Row(
                         children: [
-                          Text(transaction[ind].title,
-                              // style: const TextStyle(
-                              //   fontWeight: FontWeight.bold,
-                              //   fontSize: 12,
-                              // ),
-                              style: Theme.of(context).textTheme.titleLarge
-                              // the above inherits textTheme set in material app (main.dart)
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Theme.of(context).primaryColorDark,
                               ),
-                          Text(
-                            DateFormat.yMMMd().format(transaction[ind].date),
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 11,
+                            ),
+                            margin: const EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              '\$${transaction[ind].amount.toStringAsFixed(3)}',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColorDark),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(transaction[ind].title,
+                                    // style: const TextStyle(
+                                    //   fontWeight: FontWeight.bold,
+                                    //   fontSize: 12,
+                                    // ),
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall
+                                    // the above inherits textTheme set in material app (main.dart)
+                                    ),
+                                Text(
+                                  DateFormat.yMMMd()
+                                      .format(transaction[ind].date),
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
+                      ),
+                      // delete icon
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: IconButton(
+                          onPressed: () {
+                            //
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Color.fromARGB(255, 224, 45, 32),
+                          ),
+                        ),
                       )
                     ],
                   ),

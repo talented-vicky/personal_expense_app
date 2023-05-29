@@ -22,7 +22,7 @@ class NewTransaction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(
-        4,
+        8,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -52,7 +52,7 @@ class NewTransaction extends StatelessWidget {
               labelStyle: TextStyle(
                 fontSize: 15,
               ),
-              hintText: "Enter a non-negative figure",
+              hintText: "Enter a non-negative value",
               hintStyle: TextStyle(
                 fontSize: 14,
                 fontStyle: FontStyle.italic,
@@ -62,17 +62,15 @@ class NewTransaction extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          ElevatedButton(
-            onPressed: () {
-              submitFunc();
-              Navigator.of(context).pop();
-            },
-            child: Container(
-              height: 20,
-              width: 10,
-              decoration: const BoxDecoration(
-                  // color: Colors.blue,
-                  borderRadius: BorderRadius.all(Radius.circular(5))),
+          Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
+            child: ElevatedButton(
+              onPressed: () {
+                submitFunc();
+                Navigator.of(context).pop();
+              },
               child: const Icon(
                 Icons.add,
               ),

@@ -9,7 +9,7 @@ class Chart extends StatelessWidget {
 
   // a getter is a dynamically generated property
   // I guess I just use them when I don't need a param for a func
-  List<Map<String, Object>> get _transactionGroup {
+  List<Map<String, dynamic>> get _transactionGroup {
     return List.generate(7, (ind) {
       // final today = DateTime.now();
       // final eightDaysAgo = today.subtract(const Duration(days: 8));
@@ -34,7 +34,7 @@ class Chart extends StatelessWidget {
   double get _totalExpense {
     return _transactionGroup.fold(
       0.00,
-      (prevVal, element) => prevVal + element[],
+      (prevVal, element) => prevVal + element["totAmount"],
     );
   }
 
@@ -43,43 +43,47 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.all(8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _transactionGroup.map((transgroup) {
-          return Column(
-            children: [
-              // total spendings
-              Text("${transgroup["totAmount"]}"),
-              // bar
-              Container(
-                height: 40,
-                width: 10,
-                child: Stack(children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(width: 1, color: Colors.lightBlueAccent),
-                      color: Colors.tealAccent,
-                      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _transactionGroup.map((transgroup) {
+            return Column(
+              children: [
+                // total spendings
+                Text("\$${transgroup["totAmount"]}"),
+                // bar
+                Container(
+                  height: 60,
+                  width: 10,
+                  child: Stack(children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 2, color: Colors.deepPurpleAccent),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
-                    // child: Text("${element['totAmount']}"),
-                  ),
-                  FractionallySizedBox(
-                      heightFactor: _totalExpense / transgroup['totAmount'],
-                      child: Container(
-                        decoration: BoxDecoration(
-                          // border: Border.all(width: 1, color: Colors.red),
-                          color: Colors.deepPurpleAccent,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ))
-                ]),
-              ),
-              // day of the week
-              Text("Day: ${transgroup["day"]}"),
-            ],
-          );
-        }).toList(),
+                    FractionallySizedBox(
+                        heightFactor: _totalExpense == 0.0
+                            ? 0.0
+                            : _totalExpense / transgroup['totAmount'],
+                        // heightFactor: .8,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ))
+                  ]),
+                ),
+                // day of the week
+                Text("${transgroup["day"]}"),
+              ],
+            );
+          }).toList(),
+        ),
       ),
     );
   }
