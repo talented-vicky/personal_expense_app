@@ -73,9 +73,9 @@ class _NewTransactionState extends State<NewTransaction> {
                 fontStyle: FontStyle.italic,
               )),
         ),
-        // const SizedBox(
-        //   height: 15,
-        // ),
+        const SizedBox(
+          height: 15,
+        ),
         Row(children: [
           _chosenDate != null
               // ? Text((DateFormat.yMd(_chosenDate).toString()))
@@ -106,10 +106,7 @@ class _NewTransactionState extends State<NewTransaction> {
               child: const Icon(
                 Icons.add_card_sharp,
               )),
-        ),
-        // const SizedBox(
-        //   height: 15,
-        // ),
+        )
       ]),
     );
   }

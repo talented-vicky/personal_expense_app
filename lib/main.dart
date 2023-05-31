@@ -29,11 +29,13 @@ class MyApp extends StatelessWidget {
               ),
             ),
         // look up replacement for deprecated feature
+        // so as to change color and use titleLarge
         appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
                   titleLarge: const TextStyle(
                     fontFamily: "Quicksand",
-                    fontSize: 18,
+                    fontSize: 19,
+                    color: Colors.green,
                   ),
                 )),
       ),

@@ -37,50 +37,43 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
-      margin: const EdgeInsets.all(8),
-      child: Container(
-        padding: const EdgeInsets.all(5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _transactionGroup.map((transgroup) {
-            return Column(
-              children: [
-                // total spendings
-                Text("\$${transgroup["totAmount"]}"),
-                // bar
-                Container(
-                  height: 60,
-                  width: 10,
-                  child: Stack(children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 2, color: Colors.deepPurpleAccent),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
+        elevation: 4,
+        margin: const EdgeInsets.all(8),
+        child: Container(
+            padding: const EdgeInsets.all(5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: _transactionGroup.map((transgroup) {
+                return Column(children: [
+                  Text("\$${transgroup["totAmount"]}"),
+                  Container(
+                    height: 60,
+                    width: 13,
+                    child: Stack(children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 2, color: Colors.deepPurpleAccent),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3),
+                        ),
                       ),
-                    ),
-                    FractionallySizedBox(
-                        heightFactor: _totalExpense == 0.0
-                            ? 0.0
-                            : _totalExpense / transgroup['totAmount'],
-                        // heightFactor: .8,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ))
-                  ]),
-                ),
-                // day of the week
-                Text("${transgroup["day"]}"),
-              ],
-            );
-          }).toList(),
-        ),
-      ),
-    );
+                      FractionallySizedBox(
+                          heightFactor: transgroup['totAmount'] == 0.0
+                              ? 0.0
+                              : transgroup['totAmount'] / _totalExpense,
+                          // heightFactor: .8,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                          ))
+                    ]),
+                  ),
+                  Text("${transgroup["day"]}"),
+                ]);
+              }).toList(),
+            )));
   }
 }

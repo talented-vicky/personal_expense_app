@@ -12,7 +12,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: 450,
       child: transaction.isEmpty
           ? Column(children: const [
               Text(
@@ -31,6 +31,7 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (BuildContext context, int ind) {
                 return Card(
                     elevation: 4,
+                    margin: const EdgeInsets.only(bottom: 13),
                     child: ListTile(
                       leading: CircleAvatar(
                         child: Text(
@@ -41,7 +42,8 @@ class TransactionList extends StatelessWidget {
                             )),
                       ),
                       title: Container(
-                        margin: const EdgeInsets.only(left: 10),
+                        margin: const EdgeInsets.only(
+                            left: 10, top: 15, bottom: 15),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
