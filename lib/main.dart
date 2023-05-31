@@ -42,7 +42,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 // SHAKA ilembe
 
+// change expense indicator to bar
+// change add transaction icon
 // I surrender all to you | i give myself away | Daily as I live | You are the reason I live | Lord I give you my heart => EBEZENA
+
+
+// donwloads
+// the other side --Luli
