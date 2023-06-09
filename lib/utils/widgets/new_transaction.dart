@@ -17,12 +17,13 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime? _chosenDate;
 
   void _submitFunc() {
-    if (_titleCtrl.text.length < 3 ||
-        double.parse(_amountCtrl.text) < 0 ||
-        _chosenDate == null) return;
+    if ((_titleCtrl.text.length < 3) ||
+        (double.parse(_amountCtrl.text) < 0) ||
+        (_chosenDate == null)) return;
     widget.transFunction(
         _titleCtrl.text, double.parse(_amountCtrl.text), _chosenDate);
   }
+  // check the if operation above
 
   void _displayDatePicker() async {
     final date = await showDatePicker(
@@ -35,7 +36,6 @@ class _NewTransactionState extends State<NewTransaction> {
     setState(() => _chosenDate = date);
   }
 
-  // futures are classes that allow creation of objects that'll give
   @override
   Widget build(BuildContext context) {
     return Card(

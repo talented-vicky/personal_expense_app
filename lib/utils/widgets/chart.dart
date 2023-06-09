@@ -39,40 +39,62 @@ class Chart extends StatelessWidget {
     return Card(
         elevation: 4,
         margin: const EdgeInsets.all(8),
-        child: Container(
+        child: Padding(
             padding: const EdgeInsets.all(5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: _transactionGroup.map((transgroup) {
-                return Column(children: [
-                  Text("\$${transgroup["totAmount"]}"),
-                  Container(
-                    height: 60,
-                    width: 13,
-                    child: Stack(children: [
+                return LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Column(children: [
                       Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 2, color: Colors.deepPurpleAccent),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3),
+                        height: constraints.maxHeight * .15,
+                        child: FittedBox(
+                          child: Text("\$${transgroup["totAmount"]}"),
                         ),
                       ),
-                      FractionallySizedBox(
-                          heightFactor: transgroup['totAmount'] == 0.0
-                              ? 0.0
-                              : transgroup['totAmount'] / _totalExpense,
-                          // heightFactor: .8,
-                          child: Container(
+                      SizedBox(
+                        height: constraints.maxHeight * .02,
+                      ),
+                      Container(
+                        height: constraints.maxHeight * .65,
+                        width: 13,
+                        child: Stack(children: [
+                          Container(
                             decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
+                              border: Border.all(
+                                  width: 2, color: Colors.deepPurpleAccent),
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(3),
                             ),
-                          ))
-                    ]),
-                  ),
-                  Text("${transgroup["day"]}"),
-                ]);
+                          ),
+                          FractionallySizedBox(
+                              heightFactor: transgroup['totAmount'] == 0.0
+                                  ? 0.0
+                                  : transgroup['totAmount'] / _totalExpense,
+                              // heightFactor: .8,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                              ))
+                        ]),
+                      ),
+                      SizedBox(
+                        height: constraints.maxHeight * .02,
+                      ),
+                      Container(
+                        height: constraints.maxHeight * .15,
+                        child: FittedBox(
+                          // ensuring text always fits in space when screen size changes
+                          child: Text("${transgroup["day"]}"),
+                        ),
+                      ),
+                    ]);
+                    ;
+                  },
+                );
               }).toList(),
             )));
   }

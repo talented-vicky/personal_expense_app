@@ -28,14 +28,12 @@ class MyApp extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-        // look up replacement for deprecated feature
-        // so as to change color and use titleLarge
         appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
                   titleLarge: const TextStyle(
                     fontFamily: "Quicksand",
                     fontSize: 19,
-                    color: Colors.green,
+                    color: Colors.white,
                   ),
                 )),
       ),
@@ -45,11 +43,14 @@ class MyApp extends StatelessWidget {
 }
 
 // SHAKA ilembe
-
-// change expense indicator to bar
-// change add transaction icon
 // I surrender all to you | i give myself away | Daily as I live | You are the reason I live | Lord I give you my heart => EBEZENA
 
-
-// donwloads
+// downloads
 // the other side --Luli
+// mp3
+// ZAYN (2), Maroon 5 (2)
+
+/* 
+to dream withoug borders or boundaries, to seek adventure,
+to obsess and create => the world IMPOSSIBLE doesn't have to exist
+*/
