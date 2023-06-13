@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../utils/widgets/new_transaction.dart';
 import '../models/transaction.dart';
@@ -13,61 +16,26 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  bool _showChart = false;
   final List<Transaction> _transaction = [
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 23.56,
-      title: "fish colt",
-      date: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 13.44,
-      title: "barney",
-      date: DateTime.now().subtract(const Duration(days: 5)),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 78.34,
-      title: "cashew",
-      date: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 5.62,
-      title: "chocolate",
-      date: DateTime.now().subtract(const Duration(days: 6)),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 35.401,
-      title: "loafer",
-      date: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 21.33,
-      title: "sunlace",
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 78.21,
-      title: "cryolite",
-      date: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 213.67,
-      title: "netling",
-      date: DateTime.now().subtract(const Duration(days: 6)),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      amount: 19.72,
-      title: "casting liner",
-      date: DateTime.now().subtract(const Duration(days: 1)),
-    )
+    // Transaction(
+    //   id: DateTime.now().toString(),
+    //   amount: 23.56,
+    //   title: "fish colt",
+    //   date: DateTime.now().subtract(const Duration(days: 3)),
+    // ),
+    // Transaction(
+    //   id: DateTime.now().toString(),
+    //   amount: 13.44,
+    //   title: "barney",
+    //   date: DateTime.now().subtract(const Duration(days: 5)),
+    // ),
+    // Transaction(
+    //   id: DateTime.now().toString(),
+    //   amount: 78.34,
+    //   title: "cashew",
+    //   date: DateTime.now().subtract(const Duration(days: 1)),
+    // )
   ];
 
   void _addTransaction(String tit, double amt, DateTime dt) {
@@ -95,47 +63,82 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final appbar = AppBar(
-      title: Text(
-        "My Expenses",
-        // style: Theme.of(context).textTheme.titleLarge,
-        style: Theme.of(context).appBarTheme.textTheme!.titleLarge,
-      ),
-      actions: [
-        IconButton(
-          onPressed: () => _startTrans(context),
-          icon: const Icon(Icons.add),
-        ),
-      ],
+    final mediaQuery = MediaQuery.of(context);
+    final pagePortrait = mediaQuery.orientation == Orientation.portrait;
+
+    final barTitle = Text(
+      "My Expenses",
+      style: Theme.of(context).appBarTheme.textTheme!.titleLarge,
     );
-    return Scaffold(
-      appBar: appbar,
-      body: Column(
+    final barIcon = IconButton(
+      onPressed: () => _startTrans(context),
+      icon: const Icon(Icons.add),
+    );
+
+    final PreferredSizeWidget appbar = (Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: barTitle,
+            trailing: barIcon,
+          )
+        : AppBar(
+            title: barTitle,
+            actions: [barIcon],
+          )) as PreferredSizeWidget;
+
+    final transListContainer = Container(
+      height: (mediaQuery.size.height - appbar.preferredSize.height) * .67,
+      child: TransactionList(
+          transaction: _transaction, delTransFunction: _deleteTransaction),
+    );
+    final chartContainer = Container(
+      height: (mediaQuery.size.height - appbar.preferredSize.height) * .2,
+      width: double.infinity,
+      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 2),
+      child: Chart(recentTrans: _weeklyTransaction),
+    );
+
+    final body = Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-              height: (MediaQuery.of(context).size.height -
-                      appbar.preferredSize.height) *
-                  .2,
-              width: double.infinity,
-              margin: const EdgeInsets.all(10),
-              child: Chart(
-                recentTrans: _weeklyTransaction,
-              )),
-          Container(
-            height: (MediaQuery.of(context).size.height -
-                    appbar.preferredSize.height) *
-                .75,
-            child: TransactionList(
-                transaction: _transaction,
-                delTransFunction: _deleteTransaction),
+            height: (mediaQuery.size.height - appbar.preferredSize.height) * .1,
+            child: _transaction.isNotEmpty
+                ? Column(children: [
+                    const Text("Show Chart"),
+                    Switch.adaptive(
+                        value: _showChart,
+                        onChanged: (_) => setState(() => _showChart = _)),
+                  ])
+                : Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    child: const Text("No transaction entered yet"),
+                  ),
           ),
+          if (pagePortrait)
+            if (_showChart && _transaction.isNotEmpty) chartContainer,
+          if (pagePortrait) transListContainer,
+          if (!pagePortrait) _showChart ? chartContainer : transListContainer,
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _startTrans(context),
-        child: const Icon(Icons.add),
-      ),
     );
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(middle: appbar),
+            child: body,
+          )
+        : Scaffold(
+            appBar: appbar,
+            body: body,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    onPressed: () => _startTrans(context),
+                    child: const Icon(Icons.add),
+                  ),
+          );
   }
 }

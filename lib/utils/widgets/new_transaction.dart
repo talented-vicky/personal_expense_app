@@ -49,14 +49,9 @@ class _NewTransactionState extends State<NewTransaction> {
           onSubmitted: (_) => _submitFunc(),
           decoration: const InputDecoration(
               labelText: "Enter Title",
-              labelStyle: TextStyle(
-                fontSize: 15,
-              ),
+              labelStyle: TextStyle(fontSize: 15),
               hintText: "Enter at least 3 character",
-              hintStyle: TextStyle(
-                fontSize: 10,
-                fontStyle: FontStyle.italic,
-              )),
+              hintStyle: TextStyle(fontSize: 10, fontStyle: FontStyle.italic)),
         ),
         TextField(
           controller: _amountCtrl,
@@ -64,14 +59,9 @@ class _NewTransactionState extends State<NewTransaction> {
           onSubmitted: (_) => _submitFunc(),
           decoration: const InputDecoration(
               labelText: "Amount",
-              labelStyle: TextStyle(
-                fontSize: 15,
-              ),
+              labelStyle: TextStyle(fontSize: 15),
               hintText: "Enter a non-negative value",
-              hintStyle: TextStyle(
-                fontSize: 14,
-                fontStyle: FontStyle.italic,
-              )),
+              hintStyle: TextStyle(fontSize: 14, fontStyle: FontStyle.italic)),
         ),
         const SizedBox(
           height: 15,
@@ -96,16 +86,13 @@ class _NewTransactionState extends State<NewTransaction> {
         ),
         Container(
           decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-          ),
+              borderRadius: BorderRadius.all(Radius.circular(5))),
           child: ElevatedButton(
               onPressed: () {
                 _submitFunc();
                 Navigator.of(context).pop();
               },
-              child: const Icon(
-                Icons.add_card_sharp,
-              )),
+              child: const Icon(Icons.add_card_sharp)),
         )
       ]),
     );

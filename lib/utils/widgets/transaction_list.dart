@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -11,22 +12,57 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final mediaQuery = MediaQuery.of(context);
+    final navContext = Navigator.of(context);
     return transaction.isEmpty
-        ? Column(children: const [
-            Text(
-                "Still spending? Anyways, click the plus icon to add your expense"),
-            SizedBox(height: 20),
-            SizedBox(
-                height: 350,
-                child: Image(
-                  image:
-                      AssetImage("assets/images/healthcare-medical-cost.jpg"),
-                  fit: BoxFit.cover,
-                ))
-          ])
+        ? LayoutBuilder(builder: (builder, constraints) {
+            return Column(children: [
+              Container(
+                child: const FittedBox(
+                  child: Text("Click the add button to add expenses"),
+                ),
+              ),
+              SizedBox(
+                height: constraints.maxHeight * .05,
+              ),
+              SizedBox(
+                  height: constraints.maxHeight * .8,
+                  child: const Image(
+                    image:
+                        AssetImage("assets/images/healthcare-medical-cost.jpg"),
+                    fit: BoxFit.cover,
+                  ))
+            ]);
+          })
         : ListView.builder(
             itemCount: transaction.length,
             itemBuilder: (BuildContext context, int ind) {
+              deleteDialogueContext(BuildContext context) {
+                Widget cancelBtn = TextButton(
+                  onPressed: () => navContext.pop(),
+                  child: const Text("Cancel"),
+                );
+                Widget deleteBtn = TextButton(
+                  onPressed: () {
+                    delTransFunction(transaction[ind].id);
+                    navContext.pop();
+                  },
+                  child: const Text("Delete"),
+                );
+                AlertDialog deleteDialogue = AlertDialog(
+                  title: const Text("Delete Transaction"),
+                  content: const Text(
+                    "Deleting this transaction will remove it from transaction database",
+                  ),
+                  actions: [cancelBtn, deleteBtn],
+                );
+                showDialog(
+                  context: context,
+                  builder: (BuildContext builder) => deleteDialogue,
+                );
+              }
+
               return Card(
                   elevation: 4,
                   margin: const EdgeInsets.only(bottom: 13),
@@ -35,9 +71,7 @@ class TransactionList extends StatelessWidget {
                       child: Text(
                           '\$${transaction[ind].amount.toStringAsFixed(2)}',
                           style: const TextStyle(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w200,
-                          )),
+                              fontSize: 9, fontWeight: FontWeight.w200)),
                     ),
                     title: Container(
                       margin:
@@ -46,23 +80,27 @@ class TransactionList extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(transaction[ind].title.toLowerCase(),
-                                style: Theme.of(context).textTheme.titleSmall
+                                style: theme.textTheme.titleSmall
                                 // the above inherits textTheme set in material app (main.dart)
                                 ),
                             Text(
                                 DateFormat.yMMMd()
                                     .format(transaction[ind].date),
                                 style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 11,
-                                ))
+                                    color: Colors.grey, fontSize: 11))
                           ]),
                     ),
-                    trailing: IconButton(
-                      onPressed: () => delTransFunction(transaction[ind].id),
-                      icon: const Icon(Icons.delete,
-                          color: Color.fromARGB(255, 224, 45, 32)),
-                    ),
+                    trailing: mediaQuery.size.width > 550
+                        ? TextButton.icon(
+                            onPressed: () => deleteDialogueContext(context),
+                            icon: Icon(Icons.delete, color: theme.errorColor),
+                            label: Text("Delete",
+                                style: TextStyle(color: theme.errorColor)),
+                          )
+                        : IconButton(
+                            onPressed: () => deleteDialogueContext(context),
+                            icon: Icon(Icons.delete, color: theme.errorColor),
+                          ),
                   ));
             });
   }
