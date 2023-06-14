@@ -2,6 +2,9 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 
+import '../constants/adaptive_text_btn.dart';
+import '../constants/adaptive_elev_btn.dart';
+
 class NewTransaction extends StatefulWidget {
   const NewTransaction({super.key, required this.transFunction});
 
@@ -73,12 +76,8 @@ class _NewTransactionState extends State<NewTransaction> {
               : const Text("No Date Selected"),
           Flexible(
             fit: FlexFit.tight,
-            child: TextButton(
-                onPressed: _displayDatePicker,
-                child: const Text("Pick a date",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ))),
+            child:
+                AdaptiveTextBtn(text: "Pick a Date", func: _displayDatePicker),
           ),
         ]),
         const SizedBox(
@@ -87,12 +86,7 @@ class _NewTransactionState extends State<NewTransaction> {
         Container(
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5))),
-          child: ElevatedButton(
-              onPressed: () {
-                _submitFunc();
-                Navigator.of(context).pop();
-              },
-              child: const Icon(Icons.add_card_sharp)),
+          child: AdaptiveElevBtn(func: _submitFunc),
         )
       ]),
     );

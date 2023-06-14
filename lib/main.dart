@@ -16,10 +16,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return
+        // Platform.isIOS
+        //     ? CupertinoApp(
+        //         debugShowCheckedModeBanner: false,
+        //         title: 'ExpenseApp',
+        //         theme: CupertinoThemeData(
+        //           primaryContrastingColor: Colors.indigo,
+        //           textTheme: const CupertinoThemeData().textTheme.copyWith(
+        //                 navLargeTitleTextStyle: const TextStyle(
+        //                   fontFamily: "Quicksand",
+        //                   fontSize: 18,
+        //                 ),
+        //                 navTitleTextStyle: const TextStyle(
+        //                   fontFamily: "Quicksand",
+        //                   fontSize: 16,
+        //                 ),
+        //               ),
+        //         ),
+        //         home: const HomeView(),
+        //       )
+        //     :
+        MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ExpenseApp',
       theme: ThemeData(
+        // it's a NO, so I'll replace cupertinoColor in new_transaction widget
         primarySwatch: Colors.indigo,
         fontFamily: "OpenSans",
         // this will apply to all title text fields, see transaction_list widget

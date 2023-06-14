@@ -18,24 +18,24 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   bool _showChart = false;
   final List<Transaction> _transaction = [
-    // Transaction(
-    //   id: DateTime.now().toString(),
-    //   amount: 23.56,
-    //   title: "fish colt",
-    //   date: DateTime.now().subtract(const Duration(days: 3)),
-    // ),
-    // Transaction(
-    //   id: DateTime.now().toString(),
-    //   amount: 13.44,
-    //   title: "barney",
-    //   date: DateTime.now().subtract(const Duration(days: 5)),
-    // ),
-    // Transaction(
-    //   id: DateTime.now().toString(),
-    //   amount: 78.34,
-    //   title: "cashew",
-    //   date: DateTime.now().subtract(const Duration(days: 1)),
-    // )
+    Transaction(
+      id: DateTime.now().toString(),
+      amount: 23.56,
+      title: "fish colt",
+      date: DateTime.now().subtract(const Duration(days: 3)),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      amount: 13.44,
+      title: "barney",
+      date: DateTime.now().subtract(const Duration(days: 5)),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      amount: 78.34,
+      title: "cashew",
+      date: DateTime.now().subtract(const Duration(days: 1)),
+    )
   ];
 
   void _addTransaction(String tit, double amt, DateTime dt) {
@@ -70,10 +70,15 @@ class _HomeViewState extends State<HomeView> {
       "My Expenses",
       style: Theme.of(context).appBarTheme.textTheme!.titleLarge,
     );
-    final barIcon = IconButton(
-      onPressed: () => _startTrans(context),
-      icon: const Icon(Icons.add),
-    );
+    final barIcon = Platform.isIOS
+        ? CupertinoButton(
+            child: const Icon(CupertinoIcons.add),
+            onPressed: () => _startTrans(context),
+          )
+        : IconButton(
+            onPressed: () => _startTrans(context),
+            icon: const Icon(Icons.add),
+          );
 
     final PreferredSizeWidget appbar = (Platform.isIOS
         ? CupertinoNavigationBar(
@@ -97,35 +102,38 @@ class _HomeViewState extends State<HomeView> {
       child: Chart(recentTrans: _weeklyTransaction),
     );
 
-    final body = Container(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: (mediaQuery.size.height - appbar.preferredSize.height) * .1,
-            child: _transaction.isNotEmpty
-                ? Column(children: [
-                    const Text("Show Chart"),
-                    Switch.adaptive(
-                        value: _showChart,
-                        onChanged: (_) => setState(() => _showChart = _)),
-                  ])
-                : Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    child: const Text("No transaction entered yet"),
-                  ),
-          ),
-          if (pagePortrait)
-            if (_showChart && _transaction.isNotEmpty) chartContainer,
-          if (pagePortrait) transListContainer,
-          if (!pagePortrait) _showChart ? chartContainer : transListContainer,
-        ],
+    final body = SafeArea(
+      child: Container(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height:
+                  (mediaQuery.size.height - appbar.preferredSize.height) * .1,
+              child: _transaction.isNotEmpty
+                  ? Column(children: [
+                      const Text("Show Chart"),
+                      Switch.adaptive(
+                          value: _showChart,
+                          onChanged: (_) => setState(() => _showChart = _)),
+                    ])
+                  : Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      child: const Text("No transaction entered yet"),
+                    ),
+            ),
+            if (pagePortrait)
+              if (_showChart && _transaction.isNotEmpty) chartContainer,
+            if (pagePortrait) transListContainer,
+            if (!pagePortrait) _showChart ? chartContainer : transListContainer,
+          ],
+        ),
       ),
     );
     return Platform.isIOS
         ? CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(middle: appbar),
+            navigationBar: appbar as ObstructingPreferredSizeWidget,
             child: body,
           )
         : Scaffold(
