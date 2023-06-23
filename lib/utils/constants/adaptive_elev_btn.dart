@@ -8,22 +8,18 @@ class AdaptiveElevBtn extends StatelessWidget {
   const AdaptiveElevBtn({super.key, required this.func});
 
   @override
-  Widget build(BuildContext context) {
-    return Platform.isIOS
-        ? CupertinoButton(
-            color: Theme.of(context).primaryColor,
-            onPressed: () {
-              func();
-              Navigator.of(context).pop();
-            },
-            child: const Icon(CupertinoIcons.add_circled),
-          )
-        : ElevatedButton(
-            onPressed: () {
-              func();
-              Navigator.of(context).pop();
-            },
-            child: const Icon(Icons.add_card_sharp),
-          );
-  }
+  Widget build(BuildContext context) => Platform.isIOS
+      ? CupertinoButton(
+          color: Theme.of(context).primaryColor,
+          onPressed: () {
+            func();
+            Navigator.of(context).pop();
+          },
+          child: const Icon(CupertinoIcons.add_circled))
+      : ElevatedButton(
+          onPressed: () {
+            func();
+            Navigator.of(context).pop();
+          },
+          child: const Icon(Icons.add_card_sharp));
 }

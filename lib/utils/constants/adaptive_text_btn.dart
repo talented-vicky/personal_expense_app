@@ -9,20 +9,13 @@ class AdaptiveTextBtn extends StatelessWidget {
   const AdaptiveTextBtn({super.key, required this.text, required this.func});
 
   @override
-  Widget build(BuildContext context) {
-    return Platform.isIOS
-        ? CupertinoButton(
-            onPressed: () => func(),
-            child: Text(text,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                )),
-          )
-        : TextButton(
-            onPressed: () => func(),
-            child: Text(text,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                )));
-  }
+  Widget build(BuildContext context) => Platform.isIOS
+      ? CupertinoButton(
+          onPressed: () => func(),
+          child:
+              Text(text, style: const TextStyle(fontWeight: FontWeight.bold)))
+      : TextButton(
+          onPressed: () => func(),
+          child:
+              Text(text, style: const TextStyle(fontWeight: FontWeight.bold)));
 }
